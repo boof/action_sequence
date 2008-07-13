@@ -3,7 +3,7 @@
 #
 # This class helps building multipage form.
 class ActionSequence
-  VERSION = [1, 0, 0]
+  VERSION = [1, 0, 1]
 
   attr_reader :steps_array, :steps_hash, :walker
 
@@ -62,35 +62,6 @@ class ActionSequence
     # is returned.
     #
     # Requirements and steps are invoked in controller instance scope.
-    #
-    # Example:
-    #   class PeopleController < ApplicationController
-    #
-    #   sequence :person do
-    #     enter_name do |s|
-    #       if params[:back] then s.previous
-    #       else
-    #         s.next if @person.valid_name?
-    #       end
-    #     end
-    #     enter_address(:selects_countries) do |s|
-    #       if params[:back] then s.previous
-    #       else
-    #         s[:finished] if @person.valid_address?
-    #       end
-    #     end
-    #   end
-    #   before_filter :walk_person_sequence, :only => [:create, :update]
-    #   def create
-    #     unless person_sequence.finished_with? @step
-    #       render :action => :new
-    #     else
-    #       if @person.save then redirect_to :action => :list
-    #       else
-    #         render :action => :new
-    #       end
-    #     end
-    #   end
     def sequence(name, walker = :step, &initialization)
       sequence = ActionSequence.new(walker, &initialization)
 
