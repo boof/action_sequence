@@ -1,0 +1,67 @@
+ActionSequence
+==============
+
+This plugin adds simple sequencing functionality to controller actions.
+
+Note: Specs require test/spec.
+
+Example
+=======
+
+  class ItemController < ApplicationController
+
+    # Initialize item sequence to fetch current index from params[:steps_name]
+    sequence :item, :steps_name do
+      enter_stuff do |s|
+        if params[:back] then s.previous
+        elsif @item.valid_stuff? then s.next
+        end
+      end
+      select_other_stuff(:meth1, :meth2) do |s|
+        if params[:back] then s.previous
+        elsif @item.save then s[:finished]
+        end
+      end
+    end
+
+    before_filter :load_item
+    before_filter :walk_item_sequence, :only => [:create, :update]
+
+    # Executed when :select_other_stuff is walked.
+    def meth1
+      # does something
+    end
+    def meth2
+      # does something
+    end
+
+    # Walks a specific step, means:
+    #
+    # Assigns step to @steps_name and runs required methods,
+    # but doesn't execute steps decision block!
+    def new
+      walk_item_sequence :enter_stuff
+    end
+    def edit
+      walk_item_sequence :enter_stuff
+    end
+
+    # Walk to params[:steps_name]
+    def create
+      unless item_sequence.finished_with? @steps_name
+        render :action => :new
+      else
+        redirect_to :action => :list
+      end
+    end
+    def update
+      unless item_sequence.finished_with? @steps_name
+        render :action => :edit
+      else
+        redirect_to :action => :list
+      end
+    end
+
+  end
+
+Copyright (c) 2008 Florian Aßmann, released under the MIT license
