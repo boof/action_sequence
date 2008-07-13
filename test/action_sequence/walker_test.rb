@@ -15,17 +15,16 @@ describe "ActionSequence::Walker" do
   end
   
   it "should invoke current steps block on walk" do
-    @controller.params[:step] = 1
     @sequence.walk(@controller).should.be @sequence.steps_hash[:third_step]
-    @controller.params[:step] = 3
+    @controller.params[:step] = '3'
     @sequence.should.be.finished_with? @sequence.walk(@controller)
   end
   it "should always return a step on walk" do
-    @controller.params.update :step => 1, :blocked? => true
+    @controller.params.update :blocked? => true
     @sequence.walk(@controller).should.be @sequence.steps_hash[:first_step]
   end
   it "should run required method for step on walk" do
-    @controller.params[:step] = 2
+    @controller.params[:step] = '2'
     @sequence.walk @controller
     @controller.params[:blocked?].should.be true
   end

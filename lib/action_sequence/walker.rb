@@ -5,7 +5,7 @@ class ActionSequence::Walker
     unless step.is_a? ActionSequence::Step
       allocate.instance_eval {
         @sequence = sequence
-        @index    = controller.params[ sequence.walker ] - 1
+        @index    = (controller.params[ sequence.walker ] || 1).to_i - 1
         @current  = sequence.steps_array.at @index
 
         result = controller.instance_exec(self, &@current.block)
