@@ -1,5 +1,6 @@
 # Taken from: http://www.ruby-forum.com/topic/54096
-class Object
+
+class Object #:nodoc:
   def instance_exec(*args, &block)
     mname = "__instance_exec_#{ Thread.current.object_id.abs }"
     class << self; self end.class_eval { define_method(mname, &block) }

@@ -11,8 +11,4 @@ describe "ActionSequence::Step" do
     1.upto(7) { |i| s.set_index i }
     s.index.should.be 1
   end
-  it "should return the result of invoked @block" do
-    s = ActionSequence::Step.new(:step, proc {|s| s})
-    s[7].should.be 7
-  end
 end

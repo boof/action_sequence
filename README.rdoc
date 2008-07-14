@@ -1,12 +1,18 @@
-ActionSequence
-==============
+=== ActionSequence
+
+Multipage form routing for controller actions.
 
 This plugin adds simple sequencing functionality to controller actions.
+ActionSequence does so by tracking a so called walker parameter.
 
-Note: Specs require test/spec.
+==== Features
 
-Example
-=======
+* seperates form routing from controller actions
+* easy DSL (ActionSequence::Initializer)
+* easy to customize because of it's simple layout (ActionSequence / ActionSequence::Walker / ActionSequence::Step)
+* tested (with test/spec)
+
+==== Example
 
   class ItemController < ApplicationController
 
